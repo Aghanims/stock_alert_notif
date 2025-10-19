@@ -1,1 +1,10 @@
-edu\gmu\cs321\App.class
+edu\gmu\cs321\Alert.class
+edu\gmu\cs321\AlertCreationScreen.class
+edu\gmu\cs321\MarketDataAPI.class
+edu\gmu\cs321\NotificationService.class
+edu\gmu\cs321\User.class
+edu\gmu\cs321\Watchlist.class
+edu\gmu\cs321\Notification.class
+edu\gmu\cs321\Stock.class
+edu\gmu\cs321\AlertManager.class
+edu\gmu\cs321\AlertForm.class
