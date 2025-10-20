@@ -15,7 +15,8 @@ public class Stock
 
     public void updatePrice(double newPrice) 
     {
-        // TODO: Add validations as needed
+        // TODO: Add validations
+        
         this.currentPrice = newPrice;
     }
 

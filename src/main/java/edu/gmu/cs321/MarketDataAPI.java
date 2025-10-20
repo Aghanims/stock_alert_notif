@@ -5,7 +5,7 @@ public class MarketDataAPI
 
     public double fetchCurrentPrice(String ticker) 
     {
-        // TODO: use an external API to this function
+        // TODO: API will be used externally for this
         return 0.0;
     }
 }

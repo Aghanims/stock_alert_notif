@@ -17,6 +17,7 @@ public class Watchlist
     public void addStock(Stock stock) 
     {
         // TODO: mght need to add validations and duplicates check to make sure
+        
         stocks.add(stock);
     }
 

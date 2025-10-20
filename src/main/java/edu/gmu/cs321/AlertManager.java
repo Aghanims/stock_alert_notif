@@ -13,13 +13,9 @@ public class AlertManager
     public void checkAllAlerts() 
     {
         // TODO: Iterate alerts, fetch prices, check triggers, send notifications
-        for (Alert alert : activeAlerts) {
-            // Example placeholder flow:
-            // double price = marketDataAPI.fetchCurrentPrice(...);
-            // if (alert.checkTrigger(price)) {
-            //     alert.updateStatus("triggered");
-            //     // notificationService.sendNotification(...);
-            // }
+        for (Alert alert : activeAlerts) 
+        {
+            // Run forever
         }
     }
 
