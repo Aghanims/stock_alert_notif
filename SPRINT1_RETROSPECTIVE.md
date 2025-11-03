@@ -1,7 +1,6 @@
 # Sprint 1 Retrospective — stock_alert_notif
 
-Sprint dates: Sprint 1 (2 weeks) — [replace with actual dates]
-Team: 2 students
+Sprint dates: Sprint 1 
 
 ## What we planned
 - Implement UI for data entry role: Create Stock Alert screen with fields (ticker, target price, condition, notification method).
