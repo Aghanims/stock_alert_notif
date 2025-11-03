@@ -11,7 +11,7 @@
 - [ ] 004 - Implement NotificationService.sendNotification `.github/ISSUES/004-implement-notification-service.md` (Owner: Giorgi; Est: ---)
 - [ ] 005 - Add DB integration and e2e tests `.github/ISSUES/005-db-integration-and-e2e-tests.md` (Owner: Richmond; Est: ---)
 - [ ] 006 - Fix `AlertManager.checkAllAlerts()` scheduling `.github/ISSUES/006-fix-alertmanager-infinite-loop.md` (Owner: Giorgi; Est: ---)
-- [ ] 007 - Add PR template `.github/ISSUES/007-add-pr-template.md` (Richmond: Both; Est: ---)
+- [ ] 007 - Add PR template `.github/ISSUES/007-add-pr-template.md` (Owner: Both; Est: ---)
 
 ## In Progress
 - (Move issues here when work begins)

@@ -10,7 +10,3 @@ Acceptance Criteria:
 
 Owner: Richmond
 Estimate: 3-5 days
-Labels: tests, integration, sprint1
-
-Notes:
-- Use mocks for MarketDataAPI to control prices and triggers.

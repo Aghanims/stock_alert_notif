@@ -1,7 +1,7 @@
 Title: Implement persistence layer (DAO) for Alerts, AlertNotifications, and Users
 
 Description:
-Create a DAO layer to persist and retrieve Alerts, AlertNotifications, and Users. Keep the API simple and testable. Use JDBC or a lightweight ORM (JDBI/MyBatis) per team preference.
+Create a DAO layer to persist and retrieve Alerts, AlertNotifications, and Users. Keep the API simple and testable. Use JDBC.
 
 Acceptance Criteria:
 - DAO interfaces and basic implementations exist for Alerts, AlertNotifications, and Users.
@@ -11,8 +11,3 @@ Acceptance Criteria:
 
 Owner: Giorgi
 Estimate: 4-6 days
-Labels: backend, persistence, sprint1
-
-Notes:
-- Add SQL schema or migration files based on `DATABASE_DESIGN.md`.
-- Use prepared statements and parameterized queries.

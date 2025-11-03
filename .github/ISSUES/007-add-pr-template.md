@@ -8,9 +8,5 @@ Acceptance Criteria:
 - Template includes checkboxes for: build, tests, create/update/get tests, and secrets check.
 - Team members use the template when opening PRs.
 
-Owner: Richmond
+Owner: Both
 Estimate: 1 day
-Labels: process, docs, sprint1
-
-Notes:
-- I can create the template file automatically if you want me to (yes/no).
