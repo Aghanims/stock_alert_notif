@@ -1,7 +1,5 @@
 # Sprint 1 Retrospective — stock_alert_notif
 
-Sprint dates: Sprint 1 
-
 ## What we planned
 - Implement UI for data entry role: Create Stock Alert screen with fields (ticker, target price, condition, notification method).
 - Write TDD-style unit tests for `Alert` domain object (create/update/get with valid and invalid cases).
