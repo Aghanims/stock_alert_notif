@@ -9,7 +9,7 @@ Acceptance Criteria:
 - When an alert condition is met, `AlertManager` updates alert status to 'triggered' and creates AlertNotifications entries.
 - Behavior covered by unit/integration tests (mocking MarketDataAPI).
 
-Owner: Student A
+Owner: Richmond
 Estimate: 4 days
 Labels: backend, integration, sprint1
 

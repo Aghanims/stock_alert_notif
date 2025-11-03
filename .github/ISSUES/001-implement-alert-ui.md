@@ -9,7 +9,7 @@ Acceptance Criteria:
 - "Create Alert" button submits the form and shows a confirmation message with the created alert details.
 - The screen can be manually tested locally.
 
-Owner: Student A
+Owner: Richmond
 Estimate: 3-5 days
 Labels: enhancement, ui, sprint1
 

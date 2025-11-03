@@ -9,7 +9,7 @@ Acceptance Criteria:
 - Failed attempts are retriable (method or flag to re-queue failed notifications).
 - Unit tests simulate success and failure and assert DB records updated accordingly.
 
-Owner: Student B
+Owner: Giorgi
 Estimate: 3 days
 Labels: backend, notifications, sprint1
 

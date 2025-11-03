@@ -8,7 +8,7 @@ Acceptance Criteria:
 - There is a method to start and stop the checking loop cleanly (for tests and app lifecycle).
 - Unit tests validate start/stop behavior and that scheduled checks invoke the alert checking logic.
 
-Owner: Both
+Owner: Giorgi
 Estimate: 2-3 days
 Labels: backend, reliability, sprint1
 

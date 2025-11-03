@@ -9,7 +9,7 @@ Acceptance Criteria:
 - Unit tests cover basic DAO behavior using an in-memory DB (H2) or test container.
 - DB connection details are configurable via properties.
 
-Owner: Student B
+Owner: Giorgi
 Estimate: 4-6 days
 Labels: backend, persistence, sprint1
 

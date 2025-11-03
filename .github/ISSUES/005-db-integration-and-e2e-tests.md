@@ -8,7 +8,7 @@ Acceptance Criteria:
 - Test verifies alert creation -> trigger -> notification record created.
 - Tests are deterministic and fast enough for CI.
 
-Owner: Both
+Owner: Richmond
 Estimate: 3-5 days
 Labels: tests, integration, sprint1
 
