@@ -4,6 +4,7 @@ public class NotificationService {
 
     public void sendNotification(Notification notification) 
     {
-        // TODO: implement sending via email/SMS/push
+        // For now simply simulate send (log). Real implementation would integrate with external services.
+        System.out.println("[NotificationService] Sending notification via " + notification.getDeliveryMethod() + ": " + notification.getMessage());
     }
 }

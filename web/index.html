@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Alert Creation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="nav-bar">
+            <h1>Stock Alert System</h1>
+            <div id="currentPrice" class="current-price"></div>
+        </nav>
+        <form id="alertForm" onsubmit="return handleSubmit(event)">
+            <div class="form-group">
+                <label for="ticker">Ticker Symbol*</label>
+                <div class="ticker-input-group">
+                    <input type="text" id="ticker" name="ticker" required placeholder="e.g., AAPL">
+                    <button type="button" onclick="fetchCurrentPrice()" class="fetch-price-btn">Get Price</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="targetPrice">Target Price*</label>
+                <input type="number" id="targetPrice" name="targetPrice" step="0.01" min="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label>Condition*</label>
+                <div class="radio-group">
+                    <input type="radio" id="above" name="condition" value="above" required>
+                    <label for="above">Above</label>
+                    <input type="radio" id="below" name="condition" value="below">
+                    <label for="below">Below</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Notification Methods* (Select at least one)</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="email" name="notificationMethods" value="email">
+                    <label for="email">Email</label>
+                    <input type="checkbox" id="sms" name="notificationMethods" value="sms">
+                    <label for="sms">SMS</label>
+                    <input type="checkbox" id="push" name="notificationMethods" value="push">
+                    <label for="push">Push Notification</label>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Create Alert</button>
+        </form>
+
+        <div id="confirmation" class="confirmation hidden">
+            <h2>Alert Created Successfully!</h2>
+            <div id="alertDetails"></div>
+            <button onclick="document.getElementById('confirmation').classList.add('hidden')" class="close-btn">Close</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -11,7 +11,7 @@ public class AlertTest {
     // Test creating Alert with valid input
     @Test
     void createAlert_withValidInput_shouldSucceed() {
-        Alert alert = new Alert("A1", 100.0, "above", "email", "active");
+    Alert alert = new Alert("A1", "TICK1", 100.0, "above", "email", "active");
         assertNotNull(alert);
         assertEquals("A1", alert.getAlertID());
         assertEquals(100.0, alert.getTargetPrice());
@@ -24,7 +24,7 @@ public class AlertTest {
     @Test
     void createAlert_withInvalidInput_shouldFail() {
         // This test will fail until validation is implemented in Alert
-        Alert alert = new Alert(null, -1.0, null, null, null);
+    Alert alert = new Alert(null, null, -1.0, null, null, null);
         // Example: expect an exception or invalid state
         assertNull(alert.getAlertID(), "Alert ID should be null for invalid input");
         assertTrue(alert.getTargetPrice() < 0, "Target price should be negative for invalid input");
@@ -33,7 +33,7 @@ public class AlertTest {
     // Test updating Alert status with valid input
     @Test
     void updateAlertStatus_withValidInput_shouldSucceed() {
-        Alert alert = new Alert("A2", 200.0, "below", "sms", "active");
+    Alert alert = new Alert("A2", "TICK2", 200.0, "below", "sms", "active");
         alert.updateStatus("triggered");
         assertEquals("triggered", alert.getStatus());
     }
@@ -41,7 +41,7 @@ public class AlertTest {
     // Test updating Alert status with invalid input
     @Test
     void updateAlertStatus_withInvalidInput_shouldFail() {
-        Alert alert = new Alert("A3", 300.0, "equal", "push", "active");
+    Alert alert = new Alert("A3", "TICK3", 300.0, "equal", "push", "active");
         alert.updateStatus(null); // Should fail until validation is added
         assertNull(alert.getStatus(), "Status should be null for invalid input");
     }
@@ -49,7 +49,7 @@ public class AlertTest {
     // Test getting Alert properties with valid input
     @Test
     void getAlertProperties_withValidInput_shouldReturnCorrectValues() {
-        Alert alert = new Alert("A4", 400.0, "above", "email", "active");
+    Alert alert = new Alert("A4", "TICK4", 400.0, "above", "email", "active");
         assertEquals("A4", alert.getAlertID(), "Should return correct alert ID");
         assertEquals(400.0, alert.getTargetPrice(), "Should return correct target price");
         assertEquals("above", alert.getTriggerCondition(), "Should return correct trigger condition");
@@ -60,7 +60,7 @@ public class AlertTest {
     // Test getting Alert properties with invalid input
     @Test
     void getAlertProperties_withInvalidInput_shouldFail() {
-        Alert alert = new Alert(null, Double.NaN, null, null, null);
+        Alert alert = new Alert(null, null, Double.NaN, null, null, null);
         assertNull(alert.getAlertID(), "Should return null for invalid alert ID");
         assertTrue(Double.isNaN(alert.getTargetPrice()), "Should return NaN for invalid price");
         assertNull(alert.getTriggerCondition(), "Should return null for invalid trigger condition");

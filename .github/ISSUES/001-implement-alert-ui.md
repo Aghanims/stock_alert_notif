@@ -8,6 +8,6 @@ Acceptance Criteria:
 - Validation: ticker is non-empty, target price is positive, at least one notification method selected.
 - "Create Alert" button submits the form and shows a confirmation message with the created alert details.
 - The screen can be manually tested locally.
-
+  
 Owner: Richmond
 Estimate: 3-5 days
