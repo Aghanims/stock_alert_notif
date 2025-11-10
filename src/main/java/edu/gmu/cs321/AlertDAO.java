@@ -1,9 +1,52 @@
-package edu.gmu.cs321;
+package edu.gmu.cs321.dao;
 
+import edu.gmu.cs321.model.Alert;
 import java.util.List;
+import java.util.Optional;
 
-public interface AlertDAO {
-    List<Alert> loadActiveAlerts();
-    void saveAlert(Alert alert);
-    void updateAlert(Alert alert);
+/**
+ * Interface for Alert data access operations.
+ * Defines CRUD (Create, Read, Update, Delete) methods.
+ *
+ * @author Giorgi
+ * @version 1.0
+ */
+public interface AlertDao {
+    /**
+     * Saves a new alert to the database.
+     *
+     * @param alert The Alert object to save.
+     */
+    void create(Alert alert);
+
+    /**
+     * Finds a single alert by its unique ID.
+     *
+     * @param alertId The ID of the alert to retrieve.
+     * @return An Optional containing the Alert if found, otherwise empty.
+     */
+    Optional<Alert> findById(long alertId);
+
+    /**
+     * Retrieves all alerts with a specific status (e.g., "active").
+     *
+     * @param status The status to filter by.
+     * @return A List of all matching Alert objects.
+     */
+    List<Alert> findByStatus(String status);
+
+    /**
+     * Updates the status of an existing alert.
+     *
+     * @param alertId The ID of the alert to update.
+     * @param newStatus The new status to set.
+     */
+    void updateStatus(long alertId, String newStatus);
+
+    /**
+     * Deletes an alert from the database.
+     *
+     * @param alertId The ID of the alert to delete.
+     */
+    void delete(long alertId);
 }
