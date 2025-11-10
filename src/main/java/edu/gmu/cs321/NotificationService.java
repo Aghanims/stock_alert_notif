@@ -33,7 +33,6 @@ public class NotificationService {
         notification.setStatus("PENDING");
 
         try {
-            // 1. --- ATTEMPT TO SEND ---
             // This is the placeholder for the real sending logic
             // TODO: Giorgi - Implement sending via email/SMS/push in Sprint 2
             System.out.println("SERVICE: Attempting to send " + notification.getDeliveryMethod() +
@@ -53,7 +52,6 @@ public class NotificationService {
             notification.setStatus("FAILED");
             e.printStackTrace();
         } finally {
-            // 2. --- UPDATE STATUS TABLE ---
             // This fulfills the second part of the task.
             // We log every attempt, whether it succeeded or failed.
             notificationDao.save(notification);
