@@ -1,10 +1,62 @@
-package edu.gmu.cs321;
+package edu.gmu.cs321.service;
 
+import edu.gmu.cs321.dao.NotificationDao;
+import edu.gmu.cs321.dao.NotificationDaoImpl; // Using the concrete implementation
+import edu.gmu.cs321.model.Notification;
+import java.time.LocalDateTime;
+
+/**
+ * Implements the logic for sending notifications and logging the attempt.
+ *
+ * @author Giorgi
+ * @version 1.0
+ */
 public class NotificationService {
 
-    public void sendNotification(Notification notification) 
-    {
-        // For now simply simulate send (log). Real implementation would integrate with external services.
-        System.out.println("[NotificationService] Sending notification via " + notification.getDeliveryMethod() + ": " + notification.getMessage());
+    private NotificationDao notificationDao;
+
+    public NotificationService() {
+        // In a real app, this would be injected by a framework.
+        // For now, we instantiate it directly.
+        this.notificationDao = new NotificationDaoImpl();
+    }
+
+    /**
+     * Attempts to send a notification via the specified delivery method
+     * and logs the result to the database.
+     *
+     * @param notification The notification object to be sent.
+     */
+    public void sendNotification(Notification notification) {
+        // Set timestamp and initial status
+        notification.setTimestamp(LocalDateTime.now());
+        notification.setStatus("PENDING");
+
+        try {
+            // 1. --- ATTEMPT TO SEND ---
+            // This is the placeholder for the real sending logic
+            // TODO: Giorgi - Implement sending via email/SMS/push in Sprint 2
+            System.out.println("SERVICE: Attempting to send " + notification.getDeliveryMethod() +
+                               " to " + notification.getRecipientAddress() +
+                               " with message: \"" + notification.getMessage() + "\"");
+
+            // For now, we'll simulate a successful send.
+            boolean sendSuccess = true;
+
+            if (sendSuccess) {
+                notification.setStatus("SENT");
+            } else {
+                notification.setStatus("FAILED");
+            }
+
+        } catch (Exception e) {
+            notification.setStatus("FAILED");
+            e.printStackTrace();
+        } finally {
+            // 2. --- UPDATE STATUS TABLE ---
+            // This fulfills the second part of the task.
+            // We log every attempt, whether it succeeded or failed.
+            notificationDao.save(notification);
+        }
     }
 }
