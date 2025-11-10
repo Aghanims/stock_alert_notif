@@ -1,28 +1,78 @@
-package edu.gmu.cs321;
+package edu.gmu.cs321.model;
 
 import java.time.LocalDateTime;
 
-public class Notification 
-{
-    private String notificationID;
-    private String message;
-    private String deliveryMethod;   // "email", "sms", "push"
-    private String recipientAddress; // such as: email, phone, device token
-    private LocalDateTime timestamp;
+/**
+ * Represents a single notification sent to a user.
+ * This object is created when an alert is triggered.
+ *
+ * @author Giorgi
+ * @version 1.0
+ */
+public class Notification {
 
-    public Notification(String notificationID, String message, String deliveryMethod, String recipientAddress, LocalDateTime timestamp) 
-    {
-        this.notificationID = notificationID;
+    private long notificationId;
+    private long alertId; // Foreign key to the Alert
+    private String message;
+    private String deliveryMethod; // e.g., "Email", "SMS"
+    private String recipientAddress; // e.g., "user@example.com"
+    private LocalDateTime timestamp;
+    private String status; // e.g., "PENDING", "SENT", "FAILED"
+
+    // Getters and Setters
+    public long getNotificationId() {
+        return notificationId;
+    }
+
+    public void setNotificationId(long notificationId) {
+        this.notificationId = notificationId;
+    }
+
+    public long getAlertId() {
+        return alertId;
+    }
+
+    public void setAlertId(long alertId) {
+        this.alertId = alertId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getDeliveryMethod() {
+        return deliveryMethod;
+    }
+
+    public void setDeliveryMethod(String deliveryMethod) {
         this.deliveryMethod = deliveryMethod;
+    }
+
+    public String getRecipientAddress() {
+        return recipientAddress;
+    }
+
+    public void setRecipientAddress(String recipientAddress) {
         this.recipientAddress = recipientAddress;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
-    // Getters
-    public String getNotificationID() { return notificationID; }
-    public String getMessage() { return message; }
-    public String getDeliveryMethod() { return deliveryMethod; }
-    public String getRecipientAddress() { return recipientAddress; }
-    public LocalDateTime getTimestamp() { return timestamp; }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
