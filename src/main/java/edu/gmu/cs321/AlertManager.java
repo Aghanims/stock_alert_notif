@@ -11,9 +11,9 @@ import java.util.concurrent.Executors;
 
 /**
  * AlertManager now supports loading alerts from a DAO and using a MarketDataAPI
- * to evaluate triggers. When an alert triggers it will be marked 'triggered'
+ * to evaluate triggers. When an alert triggers it will be marked triggered
  * and a Notification will be recorded via the AlertNotificationDAO and sent
- * through NotificationService.
+ * through NotificationService :)
  */
 
 public class AlertManager 
