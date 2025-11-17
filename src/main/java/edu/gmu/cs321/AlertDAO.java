@@ -1,6 +1,5 @@
-package edu.gmu.cs321.dao;
+package edu.gmu.cs321;
 
-import edu.gmu.cs321.model.Alert;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +10,7 @@ import java.util.Optional;
  * @author Giorgi
  * @version 1.0
  */
-public interface AlertDao {
+public interface AlertDAO {
     /**
      * Saves a new alert to the database.
      *
@@ -49,4 +48,22 @@ public interface AlertDao {
      * @param alertId The ID of the alert to delete.
      */
     void delete(long alertId);
+
+    /**
+     * Loads all active alerts.
+     * @return List of active alerts
+     */
+    List<Alert> loadActiveAlerts();
+
+    /**
+     * Saves an alert.
+     * @param alert The alert to save
+     */
+    void saveAlert(Alert alert);
+
+    /**
+     * Updates an alert.
+     * @param alert The alert to update
+     */
+    void updateAlert(Alert alert);
 }

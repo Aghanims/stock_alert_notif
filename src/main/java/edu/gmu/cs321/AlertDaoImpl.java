@@ -1,6 +1,5 @@
-package edu.gmu.cs321.dao;
+package edu.gmu.cs321;
 
-import edu.gmu.cs321.model.Alert;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -13,26 +12,26 @@ import java.util.Optional;
  * @author Giorgi
  * @version 1.0
  */
-public class AlertDaoImpl implements AlertDao {
+public class AlertDaoImpl implements AlertDAO {
 
     @Override
     public void create(Alert alert) {
         // TODO: Giorgi - Implement database persistence logic here in Sprint 2
         // This method will use a PreparedStatement to INSERT the alert.
-        System.out.println("DAO: Attempting to create alert for " + alert.getTickerSymbol());
+        System.out.println("DAO: Attempting to create alert for " + alert.getTicker());
 
         // Example of a SQL command
         final String SQL = "INSERT INTO alerts (ticker, target_price, condition, status, user_id) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseManager.getConnection();
+        try (Connection conn = DataBaseManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SQL)) {
 
-            // pstmt.setString(1, alert.getTickerSymbol());
+            // pstmt.setString(1, alert.getTicker());
             // ... set other parameters
             // pstmt.executeUpdate();
 
             // For TDD, we are not fully implementing yet
-            if (alert.getTickerSymbol() == null) {
+            if (alert.getTicker() == null) {
                 throw new IllegalArgumentException("Ticker symbol cannot be null");
             }
 
@@ -64,5 +63,20 @@ public class AlertDaoImpl implements AlertDao {
     @Override
     public void delete(long alertId) {
         // TODO: Giorgi - Implement DELETE
+    }
+
+    @Override
+    public List<Alert> loadActiveAlerts() {
+        return findByStatus("active");
+    }
+
+    @Override
+    public void saveAlert(Alert alert) {
+        create(alert);
+    }
+
+    @Override
+    public void updateAlert(Alert alert) {
+        // TODO: Giorgi - Implement UPDATE
     }
 }

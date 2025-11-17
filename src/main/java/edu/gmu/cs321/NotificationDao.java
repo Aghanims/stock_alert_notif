@@ -1,6 +1,5 @@
-package edu.gmu.cs321.dao;
+package edu.gmu.cs321;
 
-import edu.gmu.cs321.model.Notification;
 import java.util.List;
 
 /**

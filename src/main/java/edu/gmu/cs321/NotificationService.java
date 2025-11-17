@@ -1,8 +1,5 @@
-package edu.gmu.cs321.service;
+package edu.gmu.cs321;
 
-import edu.gmu.cs321.dao.NotificationDao;
-import edu.gmu.cs321.dao.NotificationDaoImpl; // Using the concrete implementation
-import edu.gmu.cs321.model.Notification;
 import java.time.LocalDateTime;
 
 /**

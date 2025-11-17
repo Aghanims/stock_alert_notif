@@ -85,6 +85,73 @@ public class AlertJdbcDAO implements AlertDAO {
         }
     }
 
+    @Override
+    public void create(Alert alert) {
+        saveAlert(alert);
+    }
+
+    @Override
+    public java.util.Optional<Alert> findById(long alertId) {
+        String sql = "SELECT alert_id, ticker, target_price, trigger_condition, alert_type, status FROM alerts WHERE alert_id = ?";
+        try (Connection c = conn(); PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, String.valueOf(alertId));
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return java.util.Optional.of(new Alert(
+                        rs.getString(1), rs.getString(2), rs.getDouble(3),
+                        rs.getString(4), rs.getString(5), rs.getString(6)
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return java.util.Optional.empty();
+    }
+
+    @Override
+    public List<Alert> findByStatus(String status) {
+        List<Alert> out = new ArrayList<Alert>();
+        String sql = "SELECT alert_id, ticker, target_price, trigger_condition, alert_type, status FROM alerts WHERE status = ?";
+        try (Connection c = conn(); PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, status);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    out.add(new Alert(
+                        rs.getString(1), rs.getString(2), rs.getDouble(3),
+                        rs.getString(4), rs.getString(5), rs.getString(6)
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return out;
+    }
+
+    @Override
+    public void updateStatus(long alertId, String newStatus) {
+        String sql = "UPDATE alerts SET status=? WHERE alert_id=?";
+        try (Connection c = conn(); PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, newStatus);
+            ps.setString(2, String.valueOf(alertId));
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void delete(long alertId) {
+        String sql = "DELETE FROM alerts WHERE alert_id=?";
+        try (Connection c = conn(); PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, String.valueOf(alertId));
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // Test helper: fetch all alerts
     public List<Alert> getAll() {
         List<Alert> out = new ArrayList<Alert>();

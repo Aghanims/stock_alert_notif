@@ -1,6 +1,5 @@
-package edu.gmu.cs321.dao;
+package edu.gmu.cs321;
 
-import edu.gmu.cs321.model.Notification;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -25,7 +24,7 @@ public class NotificationDaoImpl implements NotificationDao {
     public void save(Notification notification) {
         final String SQL = "INSERT INTO notifications (alert_id, message, delivery_method, recipient_address, timestamp, status) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseManager.getConnection();
+        try (Connection conn = DataBaseManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SQL)) {
 
             pstmt.setLong(1, notification.getAlertId());

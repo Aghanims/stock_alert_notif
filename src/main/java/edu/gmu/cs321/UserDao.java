@@ -1,4 +1,5 @@
-import edu.gmu.cs321.model.User;
+package edu.gmu.cs321;
+
 import java.util.Optional;
 
 /**

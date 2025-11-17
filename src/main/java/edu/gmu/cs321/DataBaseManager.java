@@ -1,4 +1,4 @@
-package edu.gmu.cs321.dao;
+package edu.gmu.cs321;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
  * @author Giorgi
  * @version 1.0
  */
-public class DatabaseManager {
+public class DataBaseManager {
 
     // H2 in-memory database URL for development and testing
     private static final String DB_URL = "jdbc:h2:mem:stockalertdb;DB_CLOSE_DELAY=-1";

@@ -32,6 +32,47 @@ public class InMemoryAlertDAO implements AlertDAO {
         }
     }
 
+    @Override
+    public void create(Alert alert) {
+        saveAlert(alert);
+    }
+
+    @Override
+    public java.util.Optional<Alert> findById(long alertId) {
+        for (Alert a : store) {
+            if (a.getAlertID().equals(String.valueOf(alertId))) {
+                return java.util.Optional.of(a);
+            }
+        }
+        return java.util.Optional.empty();
+    }
+
+    @Override
+    public List<Alert> findByStatus(String status) {
+        List<Alert> result = new ArrayList<Alert>();
+        for (Alert a : store) {
+            if (status.equalsIgnoreCase(a.getStatus())) {
+                result.add(a);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public void updateStatus(long alertId, String newStatus) {
+        for (Alert a : store) {
+            if (a.getAlertID().equals(String.valueOf(alertId))) {
+                a.updateStatus(newStatus);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void delete(long alertId) {
+        store.removeIf(a -> a.getAlertID().equals(String.valueOf(alertId)));
+    }
+
     // Helper for tests
     public List<Alert> getAll() { return new ArrayList<Alert>(store); }
 }

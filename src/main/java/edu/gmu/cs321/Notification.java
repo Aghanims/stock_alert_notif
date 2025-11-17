@@ -1,4 +1,4 @@
-package edu.gmu.cs321.model;
+package edu.gmu.cs321;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +18,16 @@ public class Notification {
     private String recipientAddress; // e.g., "user@example.com"
     private LocalDateTime timestamp;
     private String status; // e.g., "PENDING", "SENT", "FAILED"
+
+    // Constructor for backward compatibility
+    public Notification(String notificationId, String message, String deliveryMethod, String recipientAddress, LocalDateTime timestamp) {
+        this.notificationId = Long.parseLong(notificationId.replaceAll("[^0-9]", "0"));
+        this.message = message;
+        this.deliveryMethod = deliveryMethod;
+        this.recipientAddress = recipientAddress;
+        this.timestamp = timestamp;
+        this.status = "PENDING";
+    }
 
     // Getters and Setters
     public long getNotificationId() {
@@ -74,5 +84,10 @@ public class Notification {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    // Backward compatibility method
+    public String getNotificationID() {
+        return String.valueOf(notificationId);
     }
 }
