@@ -1,0 +1,289 @@
+@startuml Sprint2_ClassDiagram
+
+' Sprint 2 - Updated Class Diagram for Stock Alert Notification System
+' Shows WorkflowState, all DAOs, and database integration
+
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+
+' Domain Classes
+class User {
+  - userID: String
+  - username: String
+  - passwordHash: String
+  - email: String
+  - phoneNumber: String
+  - watchlist: Watchlist
+  + login(username, password): boolean
+  + logout(): void
+  + createAlert(formData): void
+  + viewWatchlist(): Watchlist
+}
+
+class Alert {
+  - alertID: String
+  - ticker: String
+  - targetPrice: double
+  - triggerCondition: String
+  - alertType: String
+  - status: String
+  - workflowState: WorkflowState
+  + checkTrigger(currentPrice): boolean
+  + updateStatus(newStatus): void
+  + getWorkflowState(): WorkflowState
+}
+
+class Stock {
+  - tickerSymbol: String
+  - companyName: String
+  - currentPrice: double
+  + updatePrice(newPrice): void
+  + getPrice(): double
+}
+
+class Watchlist {
+  - watchlistID: String
+  - stocks: List<Stock>
+  + addStock(stock): void
+  + removeStock(stock): void
+  + getStocks(): List<Stock>
+}
+
+class Notification {
+  - notificationId: long
+  - alertId: long
+  - message: String
+  - deliveryMethod: String
+  - recipientAddress: String
+  - timestamp: LocalDateTime
+  - status: String
+}
+
+class AlertForm {
+  - ticker: String
+  - targetPrice: double
+  - condition: String
+  - notificationMethods: List<String>
+}
+
+' NEW: Workflow State
+class WorkflowState {
+  - alertId: String
+  - currentState: State
+  - createdAt: LocalDateTime
+  - activatedAt: LocalDateTime
+  - triggeredAt: LocalDateTime
+  - cancelledAt: LocalDateTime
+  - transitionNotes: String
+  + transitionTo(newState, notes): void
+  + getCurrentStepNumber(): int
+  + getProgressDescription(): String
+}
+
+enum State {
+  CREATED
+  ACTIVE
+  TRIGGERED
+  CANCELLED
+}
+
+' Manager Classes
+class AlertManager {
+  - activeAlerts: List<Alert>
+  - marketDataAPI: MarketDataAPI
+  - notificationService: NotificationService
+  - alertDAO: AlertDAO
+  - notificationDAO: AlertNotificationDAO
+  - workflowStateDAO: WorkflowStateDAO
+  - scheduler: ScheduledExecutorService
+  - checkIntervalSeconds: long
+  + start(): void
+  + stop(): void
+  + createAlert(user, stock, formData): Alert
+  + cancelAlert(alertID): void
+  + checkAllAlertsOnce(): void
+  + loadActiveAlertsFromDAO(): void
+}
+
+class NotificationService {
+  - notificationDao: NotificationDao
+  + sendNotification(notification): void
+}
+
+class MarketDataAPI {
+  + fetchCurrentPrice(ticker): double
+}
+
+class MockMarketDataAPI {
+  - prices: Map<String, Double>
+  + setPrice(ticker, price): void
+  + fetchCurrentPrice(ticker): double
+}
+
+' DAO Interfaces
+interface AlertDAO {
+  + create(alert): void
+  + findById(alertId): Optional<Alert>
+  + findByStatus(status): List<Alert>
+  + updateStatus(alertId, newStatus): void
+  + delete(alertId): void
+  + loadActiveAlerts(): List<Alert>
+  + saveAlert(alert): void
+  + updateAlert(alert): void
+}
+
+interface AlertNotificationDAO {
+  + saveNotification(notification): void
+  + listNotifications(): List<Notification>
+}
+
+interface UserDao {
+  + findByUsername(username): Optional<User>
+  + save(user): void
+}
+
+interface NotificationDao {
+  + save(notification): void
+  + findByAlertId(alertId): List<Notification>
+}
+
+interface WorkflowStateDAO {
+  + save(workflowState): void
+  + findByAlertId(alertId): Optional<WorkflowState>
+  + delete(alertId): void
+}
+
+' DAO Implementations
+class AlertJdbcDAO {
+  - jdbcUrl: String
+  - user: String
+  - password: String
+  - conn(): Connection
+  + loadActiveAlerts(): List<Alert>
+  + saveAlert(alert): void
+  + updateAlert(alert): void
+}
+
+class AlertNotificationJdbcDAO {
+  - jdbcUrl: String
+  - user: String
+  - password: String
+  - conn(): Connection
+  + saveNotification(notification): void
+  + listNotifications(): List<Notification>
+}
+
+class UserDaoImpl {
+  - jdbcUrl: String
+  - user: String
+  - password: String
+  - getConnection(): Connection
+  + findByUsername(username): Optional<User>
+  + save(user): void
+  + usernameExists(username): boolean
+  + delete(userId): void
+}
+
+class NotificationDaoImpl {
+  + save(notification): void
+  + findByAlertId(alertId): List<Notification>
+}
+
+class WorkflowStateJdbcDAO {
+  - jdbcUrl: String
+  - user: String
+  - password: String
+  - conn(): Connection
+  + save(workflowState): void
+  + findByAlertId(alertId): Optional<WorkflowState>
+  + delete(alertId): void
+}
+
+' In-Memory Implementations (for testing)
+class InMemoryAlertDAO {
+  - store: List<Alert>
+  + loadActiveAlerts(): List<Alert>
+  + saveAlert(alert): void
+  + updateAlert(alert): void
+}
+
+class InMemoryAlertNotificationDAO {
+  - store: List<Notification>
+  + saveNotification(notification): void
+  + listNotifications(): List<Notification>
+}
+
+' Database Utility
+class DbTestUtils {
+  + {static} createSchema(jdbcUrl): void
+}
+
+class DataBaseManager {
+  - {static} DB_URL: String
+  - {static} DB_USER: String
+  - {static} DB_PASSWORD: String
+  + {static} getConnection(): Connection
+}
+
+' Relationships
+
+' Domain relationships
+User "1" *-- "1" Watchlist
+Watchlist "1" o-- "*" Stock
+User ..> AlertForm : creates
+Alert "1" *-- "1" WorkflowState
+WorkflowState -- State
+
+' Manager dependencies
+AlertManager --> AlertDAO
+AlertManager --> AlertNotificationDAO
+AlertManager --> WorkflowStateDAO
+AlertManager --> MarketDataAPI
+AlertManager --> NotificationService
+AlertManager ..> Alert : manages
+AlertManager ..> AlertForm : uses
+
+NotificationService --> NotificationDao
+NotificationService ..> Notification : sends
+
+' DAO implementations
+AlertJdbcDAO ..|> AlertDAO
+InMemoryAlertDAO ..|> AlertDAO
+
+AlertNotificationJdbcDAO ..|> AlertNotificationDAO
+InMemoryAlertNotificationDAO ..|> AlertNotificationDAO
+
+UserDaoImpl ..|> UserDao
+NotificationDaoImpl ..|> NotificationDao
+WorkflowStateJdbcDAO ..|> WorkflowStateDAO
+
+' Inheritance
+MockMarketDataAPI --|> MarketDataAPI
+
+' Database connection
+AlertJdbcDAO ..> DataBaseManager : uses
+AlertNotificationJdbcDAO ..> DataBaseManager : uses
+UserDaoImpl ..> DataBaseManager : uses
+NotificationDaoImpl ..> DataBaseManager : uses
+WorkflowStateJdbcDAO ..> DataBaseManager : uses
+
+note right of WorkflowState
+  NEW in Sprint 2
+  Tracks alert progression:
+  CREATED → ACTIVE → TRIGGERED
+  with validation
+end note
+
+note right of UserDaoImpl
+  NEW in Sprint 2
+  JDBC persistence
+  for user accounts
+end note
+
+note right of WorkflowStateJdbcDAO
+  NEW in Sprint 2
+  Persists workflow
+  state transitions
+end note
+
+@enduml

@@ -23,6 +23,7 @@ public class AlertManager
     private final NotificationService notificationService;
     private final AlertDAO alertDAO;
     private final AlertNotificationDAO notificationDAO;
+    private final WorkflowStateDAO workflowStateDAO;
 
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> checkTask;
@@ -33,14 +34,21 @@ public class AlertManager
     {
         this.alertDAO = new InMemoryAlertDAO();
         this.notificationDAO = new InMemoryAlertNotificationDAO();
+        this.workflowStateDAO = null; // No workflow tracking in default mode
         this.marketDataAPI = new MarketDataAPI();
         this.notificationService = new NotificationService();
     }
 
     public AlertManager(AlertDAO alertDAO, AlertNotificationDAO notificationDAO, MarketDataAPI marketDataAPI, NotificationService notificationService)
     {
+        this(alertDAO, notificationDAO, null, marketDataAPI, notificationService);
+    }
+    
+    public AlertManager(AlertDAO alertDAO, AlertNotificationDAO notificationDAO, WorkflowStateDAO workflowStateDAO, MarketDataAPI marketDataAPI, NotificationService notificationService)
+    {
         this.alertDAO = alertDAO;
         this.notificationDAO = notificationDAO;
+        this.workflowStateDAO = workflowStateDAO;
         this.marketDataAPI = marketDataAPI;
         this.notificationService = notificationService;
     }
@@ -145,6 +153,11 @@ public class AlertManager
             {
                 alert.updateStatus("triggered");
                 alertDAO.updateAlert(alert);
+                
+                // Update workflow state to triggered
+                if (workflowStateDAO != null) {
+                    workflowStateDAO.save(alert.getWorkflowState());
+                }
 
                 String msg = String.format("Alert %s: %s reached target %.2f (current=%.2f)", 
                     alert.getAlertID(), alert.getTicker(), alert.getTargetPrice(), price);
@@ -167,17 +180,31 @@ public class AlertManager
 
     public Alert createAlert(User user, Stock stock, AlertForm formData) 
     {
-        // TODO: Build alert from formData and associate with user/stock
+        // Build alert from formData and associate with user/stock
         Alert alert = new Alert(
             "al-" + System.currentTimeMillis(),
             formData.getTicker(),
             formData.getTargetPrice(),
             formData.getCondition(),
             String.join(",", formData.getNotificationMethods()),
-            "active"
+            "created"  // Start in created state
         );
+        
+        // Save workflow state if DAO available
+        if (workflowStateDAO != null) {
+            workflowStateDAO.save(alert.getWorkflowState());
+        }
+        
+        // Transition to active and add to monitoring
+        alert.updateStatus("active");
         activeAlerts.add(alert);
         alertDAO.saveAlert(alert);
+        
+        // Update workflow state after activation
+        if (workflowStateDAO != null) {
+            workflowStateDAO.save(alert.getWorkflowState());
+        }
+        
         return alert;
     }
 

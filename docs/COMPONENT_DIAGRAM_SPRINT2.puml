@@ -1,0 +1,177 @@
+@startuml Sprint2_ComponentDiagram
+
+' Sprint 2 - Component Diagram for Stock Alert Notification System
+' Shows architecture with database layer and workflow tracking
+
+!define RECTANGLE class
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+
+' Presentation Layer
+package "Presentation Layer" {
+  [Web UI\n(HTML/CSS/JS)] as WebUI
+  [AlertCreationScreen\n(HTTP Server)] as WebServer
+}
+
+' Application Layer
+package "Application Layer" {
+  [AlertManager] as AlertMgr
+  [NotificationService] as NotifSvc
+}
+
+' Domain Layer
+package "Domain Layer" {
+  [Alert] as Alert
+  [User] as User
+  [Notification] as Notif
+  [WorkflowState] as Workflow
+  [Stock] as Stock
+  [Watchlist] as Watchlist
+}
+
+' Data Access Layer (NEW in Sprint 2)
+package "Data Access Layer" {
+  interface "AlertDAO" as IAlertDAO
+  interface "AlertNotificationDAO" as INotifDAO
+  interface "UserDao" as IUserDAO
+  interface "WorkflowStateDAO" as IWorkflowDAO
+  interface "NotificationDao" as INDao
+  
+  [AlertJdbcDAO] as AlertJDBC
+  [AlertNotificationJdbcDAO] as NotifJDBC
+  [UserDaoImpl] as UserImpl
+  [WorkflowStateJdbcDAO] as WorkflowJDBC
+  [NotificationDaoImpl] as NImpl
+  
+  [InMemoryAlertDAO] as AlertMem
+  [InMemoryAlertNotificationDAO] as NotifMem
+}
+
+' External Services Layer
+package "External Services" {
+  [MarketDataAPI] as MarketAPI
+  [MockMarketDataAPI] as MockAPI
+  [RealMarketDataAPI] as RealAPI
+}
+
+' Database Layer (NEW in Sprint 2)
+database "Database\n(H2/PostgreSQL)" {
+  [users] as UsersTable
+  [alerts] as AlertsTable
+  [notifications] as NotifsTable
+  [workflow_states] as WorkflowTable
+}
+
+' Utilities
+package "Utilities" {
+  [DataBaseManager] as DBMgr
+  [DbTestUtils] as DBTest
+}
+
+' ============ RELATIONSHIPS ============
+
+' Presentation to Application
+WebUI --> WebServer : HTTP requests
+WebServer --> AlertMgr : create/manage alerts
+WebServer --> MarketAPI : fetch prices
+
+' Application to Domain
+AlertMgr --> Alert : creates/manages
+AlertMgr --> Workflow : tracks progression
+NotifSvc --> Notif : sends
+User --> Alert : owns
+Alert --> Workflow : has
+User --> Watchlist : has
+Watchlist --> Stock : contains
+
+' Application to Data Access
+AlertMgr --> IAlertDAO : persists alerts
+AlertMgr --> INotifDAO : persists notifications
+AlertMgr --> IWorkflowDAO : persists workflow states
+NotifSvc --> INDao : logs delivery attempts
+
+' Data Access Implementations
+IAlertDAO <|.. AlertJDBC
+IAlertDAO <|.. AlertMem
+INotifDAO <|.. NotifJDBC
+INotifDAO <|.. NotifMem
+IUserDAO <|.. UserImpl
+IWorkflowDAO <|.. WorkflowJDBC
+INDao <|.. NImpl
+
+' Data Access to Database
+AlertJDBC --> DBMgr : get connection
+NotifJDBC --> DBMgr : get connection
+UserImpl --> DBMgr : get connection
+WorkflowJDBC --> DBMgr : get connection
+NImpl --> DBMgr : get connection
+
+DBMgr --> UsersTable : query/update
+DBMgr --> AlertsTable : query/update
+DBMgr --> NotifsTable : query/update
+DBMgr --> WorkflowTable : query/update
+
+' Database relationships
+AlertsTable --> UsersTable : FK: user_id
+NotifsTable --> AlertsTable : FK: alert_id
+WorkflowTable --> AlertsTable : FK: alert_id
+
+' Testing utilities
+DBTest ..> UsersTable : creates schema
+DBTest ..> AlertsTable : creates schema
+DBTest ..> NotifsTable : creates schema
+DBTest ..> WorkflowTable : creates schema
+
+' Market Data
+AlertMgr --> MarketAPI : fetches prices
+MarketAPI <|-- MockAPI
+MarketAPI <|-- RealAPI
+
+' ============ NOTES ============
+
+note right of AlertJDBC
+  NEW in Sprint 2
+  Complete DAO layer with
+  JDBC implementations
+  for database persistence
+end note
+
+note right of UsersTable
+  NEW in Sprint 2
+  4 tables with foreign
+  key relationships:
+  - users
+  - alerts
+  - notifications
+  - workflow_states
+end note
+
+note right of Workflow
+  NEW in Sprint 2
+  Tracks alert progression
+  through 3 steps:
+  CREATED → ACTIVE → TRIGGERED
+end note
+
+note right of NotifSvc
+  Email integration
+  placeholders added
+  (JavaMail, Twilio, Firebase)
+  Actual sending in Sprint 3+
+end note
+
+note right of AlertMgr
+  Uses ScheduledExecutorService
+  for periodic alert checking
+  (Issue #006 resolved)
+end note
+
+note bottom of "Data Access Layer"
+  **Dependency Injection Pattern**
+  AlertManager accepts DAO interfaces,
+  allowing easy swapping between
+  JDBC (production) and In-Memory (testing)
+end note
+
+@enduml

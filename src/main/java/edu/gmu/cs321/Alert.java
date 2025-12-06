@@ -8,10 +8,12 @@ public class Alert
     private String triggerCondition; // like "above", "below", "equal"
     private String alertType;        // "email", "sms", "push"
     private String status;           //  "active", "triggered", "cancelled"
+    private WorkflowState workflowState; // Track progression through steps
 
     public Alert(String alertID, String ticker, double targetPrice, String triggerCondition, String alertType, String status) 
     {
         this.alertID = alertID;
+        this.workflowState = new WorkflowState(alertID);
         this.ticker = ticker;
         this.targetPrice = targetPrice;
         this.triggerCondition = triggerCondition;
@@ -37,6 +39,17 @@ public class Alert
 
     public void updateStatus(String newStatus) 
     {
+        // Update workflow state based on status change
+        if (workflowState != null && !newStatus.equals(this.status)) {
+            try {
+                WorkflowState.State targetState = WorkflowState.State.fromString(newStatus);
+                if (workflowState.getCurrentState() != targetState) {
+                    workflowState.transitionTo(targetState, "Status changed to " + newStatus);
+                }
+            } catch (IllegalArgumentException | IllegalStateException e) {
+                System.err.println("Warning: Could not update workflow state: " + e.getMessage());
+            }
+        }
         this.status = newStatus;
     }
 
@@ -51,5 +64,8 @@ public class Alert
     public void setTargetPrice(double targetPrice) { this.targetPrice = targetPrice; }
     public void setTriggerCondition(String triggerCondition) { this.triggerCondition = triggerCondition; }
     public void setAlertType(String alertType) { this.alertType = alertType; }
+    public WorkflowState getWorkflowState() { return workflowState; }
+    public void setWorkflowState(WorkflowState workflowState) { this.workflowState = workflowState; }
+    
     public void setTicker(String ticker) { this.ticker = ticker; }
 }
