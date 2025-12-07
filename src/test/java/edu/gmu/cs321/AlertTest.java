@@ -42,8 +42,7 @@ public class AlertTest {
     @Test
     void updateAlertStatus_withInvalidInput_shouldFail() {
     Alert alert = new Alert("A3", "TICK3", 300.0, "equal", "push", "active");
-        alert.updateStatus(null); // Should fail until validation is added
-        assertNull(alert.getStatus(), "Status should be null for invalid input");
+        assertThrows(IllegalArgumentException.class, () -> alert.updateStatus(null));
     }
 
     // Test getting Alert properties with valid input

@@ -133,7 +133,15 @@ public class AlertManager
     {
         activeAlerts.clear();
         List<Alert> loaded = alertDAO.loadActiveAlerts();
-        if (loaded != null) activeAlerts.addAll(loaded);
+        if (loaded != null) {
+            for (Alert alert : loaded) {
+                if (workflowStateDAO != null) {
+                    workflowStateDAO.findByAlertId(alert.getAlertID())
+                        .ifPresent(alert::setWorkflowState);
+                }
+                activeAlerts.add(alert);
+            }
+        }
     }
 
     /**
@@ -168,9 +176,9 @@ public class AlertManager
                     "unknown", 
                     LocalDateTime.now()
                 );
-                // persist notification and try sending
-                notificationDAO.saveNotification(n);
+                // send first so status reflects final outcome, then persist
                 notificationService.sendNotification(n);
+                notificationDAO.saveNotification(n);
 
                 // remove triggered alert from active list
                 activeAlerts.remove(alert);

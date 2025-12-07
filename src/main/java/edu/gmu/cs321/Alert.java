@@ -39,6 +39,10 @@ public class Alert
 
     public void updateStatus(String newStatus) 
     {
+        if (newStatus == null) {
+            throw new IllegalArgumentException("Status cannot be null");
+        }
+
         // Update workflow state based on status change
         if (workflowState != null && !newStatus.equals(this.status)) {
             try {

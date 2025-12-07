@@ -32,13 +32,14 @@ public class AlertNotificationJdbcDAO implements AlertNotificationDAO {
 
     @Override
     public void saveNotification(Notification notification) {
-        String sql = "INSERT INTO notifications(notification_id, message, delivery_method, recipient_address, timestamp) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO notifications(notification_id, message, delivery_method, recipient_address, timestamp, status) VALUES(?,?,?,?,?,?)";
         try (Connection c = conn(); PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, notification.getNotificationID());
             ps.setString(2, notification.getMessage());
             ps.setString(3, notification.getDeliveryMethod());
             ps.setString(4, notification.getRecipientAddress());
             ps.setTimestamp(5, Timestamp.valueOf(notification.getTimestamp()));
+            ps.setString(6, notification.getStatus());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -48,7 +49,7 @@ public class AlertNotificationJdbcDAO implements AlertNotificationDAO {
     @Override
     public List<Notification> listNotifications() {
         List<Notification> out = new ArrayList<Notification>();
-        String sql = "SELECT notification_id, message, delivery_method, recipient_address, timestamp FROM notifications";
+        String sql = "SELECT notification_id, message, delivery_method, recipient_address, timestamp, status FROM notifications";
         try (Connection c = conn(); PreparedStatement ps = c.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 String id = rs.getString(1);
@@ -57,7 +58,9 @@ public class AlertNotificationJdbcDAO implements AlertNotificationDAO {
                 String recipient = rs.getString(4);
                 Timestamp ts = rs.getTimestamp(5);
                 LocalDateTime ldt = ts == null ? LocalDateTime.now() : ts.toLocalDateTime();
-                out.add(new Notification(id, msg, method, recipient, ldt));
+                Notification n = new Notification(id, msg, method, recipient, ldt);
+                n.setStatus(rs.getString(6));
+                out.add(n);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
