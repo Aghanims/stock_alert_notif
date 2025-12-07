@@ -20,13 +20,31 @@ $sarif = @{
 }
 
 foreach ($bug in $xml.BugCollection.BugInstance) {
+    $sourceLine = $bug.SourceLine
+    if (-not $sourceLine) { continue }
+
+    $path = $sourceLine.sourcepath
+    if (-not $path) { continue }
+
+    $startLine = [int]($sourceLine.start | ForEach-Object { $_ })
+    if (-not $startLine -or $startLine -lt 1) { $startLine = 1 }
+    $endLine = [int]($sourceLine.end | ForEach-Object { $_ })
+    if (-not $endLine -or $endLine -lt $startLine) { $endLine = $startLine }
+
     $result = @{
         ruleId = $bug.type
         level  = "warning"
         message = @{
             text = $bug.ShortMessage
         }
+        locations = @(@{
+            physicalLocation = @{
+                artifactLocation = @{ uri = $path }
+                region = @{ startLine = $startLine; endLine = $endLine }
+            }
+        })
     }
+
     $sarif.runs[0].results += $result
 }
 
