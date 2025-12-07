@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -48,6 +49,6 @@ public class NotificationDaoImpl implements NotificationDao {
     @Override
     public List<Notification> findByAlertId(long alertId) {
         // TODO: Giorgi - Implement this in Sprint 2
-        return List.of();
+        return Collections.emptyList();
     }
 }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -54,7 +55,7 @@ public class EndToEndWorkflowTest {
         assertTrue(userDAO.findByUsername("testuser").isPresent(), "User should be saved");
         
         // Step 2: Create an alert through AlertManager
-        AlertForm form = new AlertForm("AAPL", 150.0, "above", List.of("email"));
+        AlertForm form = new AlertForm("AAPL", 150.0, "above", Collections.singletonList("email"));
         Stock stock = new Stock("AAPL", "Apple Inc.", 140.0);
         
         Alert alert = alertManager.createAlert(user, stock, form);

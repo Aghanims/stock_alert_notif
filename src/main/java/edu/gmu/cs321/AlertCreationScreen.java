@@ -3,6 +3,7 @@ package edu.gmu.cs321;
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -37,7 +38,7 @@ public class AlertCreationScreen {
                 try {
                     // Read request body
                     InputStream is = exchange.getRequestBody();
-                    String requestBody = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+                    String requestBody = readRequestBody(is);
                     JSONObject json = new JSONObject(requestBody);
 
                     // Create alert from JSON
@@ -126,5 +127,15 @@ public class AlertCreationScreen {
         if (server != null) {
             server.stop(0);
         }
+    }
+
+    private String readRequestBody(InputStream is) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        byte[] data = new byte[4096];
+        int n;
+        while ((n = is.read(data)) != -1) {
+            buffer.write(data, 0, n);
+        }
+        return new String(buffer.toByteArray(), StandardCharsets.UTF_8);
     }
 }

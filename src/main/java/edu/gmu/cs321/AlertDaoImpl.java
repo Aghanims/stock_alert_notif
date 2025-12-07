@@ -3,6 +3,7 @@ package edu.gmu.cs321;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +53,7 @@ public class AlertDaoImpl implements AlertDAO {
     @Override
     public List<Alert> findByStatus(String status) {
         // TODO: Giorgi - Implement SELECT by status
-        return List.of(); // Return empty list
+        return Collections.emptyList(); // Return empty list
     }
 
     @Override
