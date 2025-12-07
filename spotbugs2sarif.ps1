@@ -26,10 +26,17 @@ foreach ($bug in $xml.BugCollection.BugInstance) {
     $path = $sourceLine.sourcepath
     if (-not $path) { continue }
 
-    $startLine = [int]($sourceLine.start | ForEach-Object { $_ })
-    if (-not $startLine -or $startLine -lt 1) { $startLine = 1 }
-    $endLine = [int]($sourceLine.end | ForEach-Object { $_ })
-    if (-not $endLine -or $endLine -lt $startLine) { $endLine = $startLine }
+    $startRaw = $sourceLine.start
+    if ($startRaw -is [System.Array]) { $startRaw = $startRaw[0] }
+    [int]$startLine = 1
+    [void][int]::TryParse($startRaw, [ref]$startLine)
+    if ($startLine -lt 1) { $startLine = 1 }
+
+    $endRaw = $sourceLine.end
+    if ($endRaw -is [System.Array]) { $endRaw = $endRaw[0] }
+    [int]$endLine = $startLine
+    [void][int]::TryParse($endRaw, [ref]$endLine)
+    if ($endLine -lt $startLine) { $endLine = $startLine }
 
     $result = @{
         ruleId = $bug.type
