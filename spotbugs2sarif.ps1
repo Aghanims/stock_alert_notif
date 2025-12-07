@@ -7,14 +7,16 @@ param (
 [xml]$xml = Get-Content $InputXml
 
 # Prepare SARIF structure
-$sarif = @{
+$sarif = [ordered]@{
     version = "2.1.0"
     runs = @(@{
         tool = @{
             driver = @{
                 name = "SpotBugs"
+                rules = @()
             }
         }
+        artifacts = @()
         results = @()
     })
 }
@@ -25,6 +27,13 @@ foreach ($bug in $xml.BugCollection.BugInstance) {
 
     $path = $sourceLine.sourcepath
     if (-not $path) { continue }
+
+    # Track artifact index for this path
+    $artifactIndex = $sarif.runs[0].artifacts.FindIndex({ $_.location.uri -eq $path })
+    if ($artifactIndex -lt 0) {
+        $sarif.runs[0].artifacts += @{ location = @{ uri = $path } }
+        $artifactIndex = $sarif.runs[0].artifacts.Count - 1
+    }
 
     $startRaw = $sourceLine.start
     if ($startRaw -is [System.Array]) { $startRaw = $startRaw[0] }
@@ -38,15 +47,13 @@ foreach ($bug in $xml.BugCollection.BugInstance) {
     [void][int]::TryParse($endRaw, [ref]$endLine)
     if ($endLine -lt $startLine) { $endLine = $startLine }
 
-    $result = @{
+    $result = [ordered]@{
         ruleId = $bug.type
         level  = "warning"
-        message = @{
-            text = $bug.ShortMessage
-        }
+        message = @{ text = $bug.ShortMessage }
         locations = @(@{
             physicalLocation = @{
-                artifactLocation = @{ uri = $path }
+                artifactLocation = @{ uri = $path; index = $artifactIndex }
                 region = @{ startLine = $startLine; endLine = $endLine }
             }
         })
