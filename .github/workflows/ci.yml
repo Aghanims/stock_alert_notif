@@ -65,7 +65,7 @@ jobs:
           cache: maven
 
       - name: Run SpotBugs (skip checkstyle)
-        run: mvn -B "-Dcheckstyle.skip=true" com.github.spotbugs:spotbugs-maven-plugin:4.9.8.1:spotbugs
+        run: mvn -B "-Dcheckstyle.skip=true" com.github.spotbugs:spotbugs-maven-plugin:4.7.3.0:spotbugs
 
       - name: Convert SpotBugs XML to SARIF
         shell: pwsh
