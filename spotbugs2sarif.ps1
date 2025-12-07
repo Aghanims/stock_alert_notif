@@ -29,7 +29,13 @@ foreach ($bug in $xml.BugCollection.BugInstance) {
     if (-not $path) { continue }
 
     # Track artifact index for this path
-    $artifactIndex = $sarif.runs[0].artifacts.FindIndex({ $_.location.uri -eq $path })
+    $artifactIndex = -1
+    for ($i = 0; $i -lt $sarif.runs[0].artifacts.Count; $i++) {
+        if ($sarif.runs[0].artifacts[$i].location.uri -eq $path) {
+            $artifactIndex = $i
+            break
+        }
+    }
     if ($artifactIndex -lt 0) {
         $sarif.runs[0].artifacts += @{ location = @{ uri = $path } }
         $artifactIndex = $sarif.runs[0].artifacts.Count - 1
