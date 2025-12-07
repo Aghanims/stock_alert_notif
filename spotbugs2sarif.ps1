@@ -7,6 +7,8 @@ param (
 [xml]$xml = Get-Content $InputXml
 
 # Prepare SARIF structure
+$artifactMap = @{}
+
 $sarif = [ordered]@{
     version = "2.1.0"
     runs = @(@{
@@ -27,18 +29,17 @@ foreach ($bug in $xml.BugCollection.BugInstance) {
 
     $path = $sourceLine.sourcepath
     if (-not $path) { continue }
+    # Normalize path: take first token, keep forward slashes
+    $path = ($path -split '\s+')[0]
+    $path = $path -replace '\\', '/'
 
     # Track artifact index for this path
-    $artifactIndex = -1
-    for ($i = 0; $i -lt $sarif.runs[0].artifacts.Count; $i++) {
-        if ($sarif.runs[0].artifacts[$i].location.uri -eq $path) {
-            $artifactIndex = $i
-            break
-        }
-    }
-    if ($artifactIndex -lt 0) {
+    if ($artifactMap.ContainsKey($path)) {
+        $artifactIndex = $artifactMap[$path]
+    } else {
         $sarif.runs[0].artifacts += @{ location = @{ uri = $path } }
         $artifactIndex = $sarif.runs[0].artifacts.Count - 1
+        $artifactMap[$path] = $artifactIndex
     }
 
     $startRaw = $sourceLine.start
@@ -57,12 +58,14 @@ foreach ($bug in $xml.BugCollection.BugInstance) {
         ruleId = $bug.type
         level  = "warning"
         message = @{ text = $bug.ShortMessage }
-        locations = @(@{
-            physicalLocation = @{
-                artifactLocation = @{ uri = $path; index = $artifactIndex }
-                region = @{ startLine = $startLine; endLine = $endLine }
+        locations = @(
+            [ordered]@{
+                physicalLocation = [ordered]@{
+                    artifactLocation = @{ uri = $path; index = $artifactIndex }
+                    region = @{ startLine = $startLine; endLine = $endLine }
+                }
             }
-        })
+        )
     }
 
     $sarif.runs[0].results += $result
