@@ -25,7 +25,7 @@ jobs:
           cache: maven
 
       - name: Build (skip tests, skip checkstyle)
-        run: mvn -B -DskipTests=true -Dcheckstyle.skip=true clean package
+        run: mvn -B "-DskipTests=true" "-Dcheckstyle.skip=true" clean package
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -48,7 +48,7 @@ jobs:
           cache: maven
 
       - name: Run tests (skip checkstyle)
-        run: mvn -B -Dcheckstyle.skip=true test
+        run: mvn -B "-Dcheckstyle.skip=true" test
 
   sast:
     runs-on: windows-latest
@@ -65,7 +65,7 @@ jobs:
           cache: maven
 
       - name: Run SpotBugs (skip checkstyle)
-        run: mvn -B -Dcheckstyle.skip=true com.github.spotbugs:spotbugs-maven-plugin:4.9.8.1:spotbugs
+        run: mvn -B "-Dcheckstyle.skip=true" com.github.spotbugs:spotbugs-maven-plugin:4.9.8.1:spotbugs
 
       - name: Convert SpotBugs XML to SARIF
         shell: pwsh
