@@ -65,11 +65,14 @@ jobs:
           cache: maven
 
       - name: Run SpotBugs (skip checkstyle)
-        run: mvn -B "-Dcheckstyle.skip=true" com.github.spotbugs:spotbugs-maven-plugin:4.7.3.0:spotbugs
+        run: mvn -B "-Dcheckstyle.skip=true" com.github.spotbugs:spotbugs-maven-plugin:4.7.3.0:spotbugs -DspotbugsXmlOutput=true -Dspotbugs.outputDirectory=target
 
       - name: Convert SpotBugs XML to SARIF
         shell: pwsh
-        run: ./spotbugs2sarif.ps1 target/spotbugsXml.xml gl-sast-report.json
+        run: |
+          $xml = Get-ChildItem -Path target -Filter *.xml -Recurse | Where-Object { $_.Name -like 'spotbugs*.xml' } | Select-Object -First 1
+          if (-not $xml) { throw "SpotBugs XML report not found" }
+          ./spotbugs2sarif.ps1 $xml.FullName gl-sast-report.json
 
       - name: Upload SARIF to code scanning
         uses: github/codeql-action/upload-sarif@v3
