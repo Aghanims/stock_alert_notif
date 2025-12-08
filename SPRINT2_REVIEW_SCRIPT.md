@@ -2,7 +2,6 @@
 
 **Sprint Goal:** Incorporate the workflow object to show progression through 3 steps, incorporate database and get working end-to-end
 
-**Demo Date:** [Insert Date]  
 **Team:** Richmond & Giorgi  
 **Duration:** 15-20 minutes
 
@@ -13,11 +12,11 @@
 "Welcome to the Sprint 2 Review for the Stock Alert Notification System. In this sprint, we focused on incorporating a workflow object to track alert progression through three steps, and completing database integration for a working end-to-end system."
 
 ### Sprint Goals Recap
-1. ✅ Implement WorkflowState to track alerts through CREATED → ACTIVE → TRIGGERED
-2. ✅ Complete database integration for all entities
-3. ✅ Implement User persistence layer
-4. ✅ Create comprehensive end-to-end tests
-5. ✅ Document email integration points (placeholder only)
+1.  Implement WorkflowState to track alerts through CREATED → ACTIVE → TRIGGERED
+2.  Complete database integration for all entities
+3.  Implement User persistence layer
+4.  Create comprehensive end-to-end tests
+5.  Document email integration points (placeholder only)
 
 ---
 
@@ -210,7 +209,7 @@ checkTask = scheduler.scheduleAtFixedRate(
 ## Summary & Metrics (2 minutes)
 
 ### What We Accomplished
-✅ **Technical:**
+ **Technical:**
 - WorkflowState class with validated state transitions
 - Complete database schema with 4 tables and foreign keys
 - UserDaoImpl with JDBC persistence
@@ -218,7 +217,7 @@ checkTask = scheduler.scheduleAtFixedRate(
 - Comprehensive end-to-end integration tests (7 test methods)
 - Email integration placeholders with detailed examples
 
-✅ **Process:**
+ **Process:**
 - 10 of 12 development tasks completed (83%)
 - All core functionality working end-to-end
 - 18 of 22 story points completed
