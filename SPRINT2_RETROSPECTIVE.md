@@ -10,23 +10,23 @@
 ## What We Planned
 
 ### Primary Objectives
-1. ✅ Implement `WorkflowState` class to track alert progression through 3 steps (CREATED → ACTIVE → TRIGGERED)
-2. ✅ Complete database integration for all entities (Users, Alerts, Notifications, WorkflowStates)
-3. ✅ Implement User DAO with JDBC persistence
-4. ✅ Complete end-to-end integration tests
-5. ✅ Document email integration placeholders (no actual email implementation expected)
-6. 🔄 Update class and component diagrams (in progress)
-7. 🔄 Complete Sprint 2 Scrum documentation (in progress)
+1.  Implement `WorkflowState` class to track alert progression through 3 steps (CREATED → ACTIVE → TRIGGERED)
+2.  Complete database integration for all entities (Users, Alerts, Notifications, WorkflowStates)
+3.  Implement User DAO with JDBC persistence
+4.  Complete end-to-end integration tests
+5. Document email integration placeholders (no actual email implementation expected)
+6. Update class and component diagrams (in progress)
+    Complete Sprint 2 Scrum documentation (in progress)
 
 ### User Stories Completed
-- ✅ Story 1: Workflow State Tracking
-- ✅ Story 2: Complete Database Integration
-- ✅ Story 3: User Management Persistence
-- ✅ Story 4: AlertManager Scheduled Monitoring (completed in Sprint 1)
-- ✅ Story 5: End-to-End Integration Testing
-- ✅ Story 6: Email Integration Placeholder
-- 🔄 Story 7: Update Technical Documentation (diagrams in progress)
-- 🔄 Story 8: Sprint 2 Scrum Documentation (in progress)
+-  Story 1: Workflow State Tracking
+-  Story 2: Complete Database Integration
+-  Story 3: User Management Persistence
+-  Story 4: AlertManager Scheduled Monitoring (completed in Sprint 1)
+-  Story 5: End-to-End Integration Testing
+-  Story 6: Email Integration Placeholder
+-  Story 7: Update Technical Documentation (diagrams in progress)
+- Story 8: Sprint 2 Scrum Documentation (in progress)
 
 ---
 
@@ -111,9 +111,9 @@
 - **Database Tables:** 4 (users, alerts, notifications, workflow_states)
 
 ### Test Coverage
-- Unit tests: All passing ✅
-- Integration tests: All passing ✅
-- End-to-end tests: 7 test methods, all passing ✅
+- Unit tests: All passing 
+- Integration tests: All passing 
+- End-to-end tests: 7 test methods, all passing 
 - Coverage: Estimated >80% for new code
 
 ### Sprint Velocity
@@ -143,9 +143,9 @@
 ## Action Items for Sprint 3
 
 ### Immediate Actions
-1. 🎯 Complete class and component diagram updates (Richmond - 1 day)
-2. 🎯 Finalize Sprint 2 documentation (Both - 1 day)
-3. 🎯 Record Sprint Review video (Richmond - 2 hours)
+1. Complete class and component diagram updates (Richmond - 1 day)
+    Finalize Sprint 2 documentation (Both - 1 day)
+3.  Record Sprint Review video (Richmond - 2 hours)
 
 ### Technical Improvements
 1. Consider connection pooling for database in production
@@ -198,7 +198,7 @@ Key accomplishments:
 
 Remaining work (diagrams and final documentation) is minor and will be completed early in Sprint 3.
 
-**Ready for Sprint Review Demo:** YES ✅
+**Ready for Sprint Review Demo:** YES 
 
 ---
 
