@@ -1,10 +1,8 @@
 # Sprint 2 Final Checklist
 
-Use this checklist to ensure all Sprint 2 deliverables are complete before submission.
-
 ---
 
-## ✅ Code Implementation
+## Code Implementation
 
 - [x] **WorkflowState class created** (`WorkflowState.java`)
   - [x] State enum defined (CREATED, ACTIVE, TRIGGERED, CANCELLED)
@@ -54,7 +52,7 @@ Use this checklist to ensure all Sprint 2 deliverables are complete before submi
 
 ---
 
-## ✅ Testing
+## Testing
 
 - [x] **End-to-end test created** (`EndToEndWorkflowTest.java`)
   - [x] Complete workflow test (user → alert → trigger → notify)
@@ -81,7 +79,7 @@ Use this checklist to ensure all Sprint 2 deliverables are complete before submi
 
 ---
 
-## ✅ Documentation
+## Documentation
 
 - [x] **Sprint documentation created**
   - [x] SPRINT2_STORIES.md (8 user stories)
@@ -111,7 +109,7 @@ Use this checklist to ensure all Sprint 2 deliverables are complete before submi
 
 ---
 
-## 📋 Team Activities (To Complete)
+## Team Activities (To Complete)
 
 ### Coordination Meetings
 - [ ] **Fill in actual meeting dates** in `SPRINT2_COORDINATION_MEETINGS.md`
@@ -171,7 +169,7 @@ Use this checklist to ensure all Sprint 2 deliverables are complete before submi
 
 ---
 
-## 🎯 Acceptance Criteria Verification
+## Acceptance Criteria Verification
 
 ### Story 1: Workflow State Tracking
 - [x] WorkflowState class created with 4 states
@@ -230,7 +228,7 @@ Use this checklist to ensure all Sprint 2 deliverables are complete before submi
 
 ---
 
-## 🚀 Pre-Submission Checklist
+## Pre-Submission Checklist
 
 ### Code Quality
 - [x] All code compiles without errors
@@ -262,9 +260,9 @@ Use this checklist to ensure all Sprint 2 deliverables are complete before submi
 
 ---
 
-## 📦 Submission Package
+##  Submission Package
 
-Ensure the following are included in your submission:
+Ensure the following are included in our submission:
 
 ### Code
 ```
@@ -352,7 +350,7 @@ Based on the assignment rubric:
 
 ---
 
-## ✨ Ready for Submission When:
+## Ready for Submission When:
 
 - [ ] All checkboxes above are marked complete
 - [ ] Sprint Review video recorded and uploaded
@@ -364,7 +362,7 @@ Based on the assignment rubric:
 
 ---
 
-**Current Status:** Code Complete ✅ | Documentation Templates Ready ✅ | Team Activities Pending ⏳
+**Current Status:** Code Complete | Documentation Templates Ready | Team Activities Pending
 
 **Next Steps:**
 1. Conduct and document actual Sprint meetings
