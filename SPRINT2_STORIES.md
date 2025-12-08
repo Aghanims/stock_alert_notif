@@ -23,7 +23,7 @@
 
 **Owner:** Richmond  
 **Estimate:** 3 days  
-**Status:** ✅ Completed
+**Status:**  Completed
 
 ---
 
@@ -41,7 +41,7 @@
 
 **Owner:** Giorgi  
 **Estimate:** 5 days  
-**Status:** ✅ Completed
+**Status:**  Completed
 
 ---
 
@@ -59,7 +59,7 @@
 
 **Owner:** Giorgi  
 **Estimate:** 2 days  
-**Status:** ✅ Completed
+**Status:**  Completed
 
 ---
 
@@ -77,7 +77,7 @@
 
 **Owner:** Giorgi  
 **Estimate:** 3 days  
-**Status:** ✅ Completed (Already implemented in Sprint 1)
+**Status:**  Completed (Already implemented in Sprint 1)
 
 ---
 
@@ -95,7 +95,7 @@
 
 **Owner:** Richmond  
 **Estimate:** 4 days  
-**Status:** ✅ Completed
+**Status:**  Completed
 
 ---
 
@@ -113,7 +113,7 @@
 
 **Owner:** Both  
 **Estimate:** 1 day  
-**Status:** ✅ Completed
+**Status:**  Completed
 
 ---
 
@@ -130,7 +130,7 @@
 
 **Owner:** Richmond  
 **Estimate:** 2 days  
-**Status:** 🔄 In Progress
+**Status:**  In Progress
 
 ---
 
@@ -184,13 +184,6 @@ For a user story to be considered "Done" in Sprint 2:
 - Production can use PostgreSQL/MySQL with same schema
 - All timestamps use `TIMESTAMP` type
 - Primary keys are VARCHAR(100) for UUIDs
-
-### Workflow States
-```
-CREATED (Step 1) → ACTIVE (Step 2) → TRIGGERED (Step 3)
-             ↓
-        CANCELLED (Terminal)
-```
 
 ### Integration Points
 - AlertManager ↔ AlertDAO (persistence)
